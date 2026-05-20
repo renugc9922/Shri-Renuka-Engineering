@@ -3,6 +3,10 @@ import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';
 
 const e = React.createElement;
 
+const SERVICE_ID = 'Renuka_Engg';
+const TEMPLATE_ID = 'template_d32oggg';
+const PUBLIC_KEY = 'oaRt99YrbLTmv3q_5';
+
 const navItems = [
     { label: 'Home', href: '#top' },
     { label: 'About', href: '#about' },
@@ -141,8 +145,18 @@ function Navbar() {
 function App() {
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert('✅ Form Submitted Successfully!');
-        event.target.reset();
+
+        const form = event.currentTarget;
+
+        window.emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
+            .then(() => {
+                alert('✅ Inquiry sent successfully!');
+                form.reset();
+            })
+            .catch((error) => {
+                console.error(error);
+                alert('❌ Something went wrong. Please try again.');
+            });
     };
 
     React.useEffect(() => {
@@ -407,12 +421,12 @@ function App() {
                     e(
                         'form',
                         { className: 'inquiry-form reveal', onSubmit: handleSubmit },
-                        e('input', { type: 'text', placeholder: 'Full Name', required: true }),
-                        e('input', { type: 'tel', placeholder: 'Phone Number', required: true }),
-                        e('input', { type: 'email', placeholder: 'Email Address' }),
+                        e('input', { type: 'text', name: 'user_name', placeholder: 'Full Name', required: true }),
+                        e('input', { type: 'tel', name: 'user_phone', placeholder: 'Phone Number', required: true }),
+                        e('input', { type: 'email', name: 'user_email', placeholder: 'Email Address' }),
                         e(
                             'select',
-                            { required: true },
+                            { name: 'inquiry_type', required: true },
                             e('option', { value: '' }, 'Select Inquiry Type'),
                             e('option', { value: 'quotation' }, 'Quotation Request'),
                             e('option', { value: 'internship' }, 'Internship Application'),
@@ -420,7 +434,7 @@ function App() {
                             e('option', { value: 'career' }, 'Career / Job Application'),
                             e('option', { value: 'supplier' }, 'Supplier / Business Inquiry')
                         ),
-                        e('textarea', { placeholder: 'Write your message or requirement...', rows: 5 }),
+                        e('textarea', { name: 'message', placeholder: 'Write your message or requirement...', rows: 5 }),
                         e('button', { type: 'submit', className: 'cta-button' }, 'Submit Inquiry')
                     )
                 )
