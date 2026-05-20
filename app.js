@@ -7,6 +7,26 @@ const SERVICE_ID = 'Renuka_Engg';
 const TEMPLATE_ID = 'template_d32oggg';
 const PUBLIC_KEY = 'oaRt99YrbLTmv3q_5';
 
+const HERO_IMAGE = 'images/newmachinepuja.jpeg';
+const ABOUT_IMAGE = 'images/IMG_20211103_172017.jpg';
+const MACHINERY_IMAGES = [
+    'images/startingcompanyimg.JPG.JPG',
+    'images/IMG_20211103_172017.jpg',
+    'images/newmachinepuja.jpeg',
+    ''
+];
+const PROJECT_IMAGES = [
+    'images/startingcompanyimg.JPG.JPG',
+    'images/IMG_20211103_172017.jpg',
+    'images/newmachinepuja.jpeg'
+];
+const TRAINING_IMAGES = [
+    '',
+    'images/traning2.JPG.JPG',
+    'images/traning.JPG.JPG',
+    'images/coursecompletion.jpg.jpg'
+];
+
 const navItems = [
     { label: 'Home', href: '#top' },
     { label: 'About', href: '#about' },
@@ -37,6 +57,52 @@ function isInquiryOpen() {
     }
 
     return hour >= 9 && hour < 18;
+}
+
+function VisualMedia({
+    className,
+    src,
+    alt,
+    label,
+    title,
+    description,
+    objectPosition = 'center',
+    theme = 'industrial',
+    eager = false
+}) {
+    const [failed, setFailed] = React.useState(!src);
+
+    React.useEffect(() => {
+        setFailed(!src);
+    }, [src]);
+
+    const showImage = Boolean(src) && !failed;
+
+    return e(
+        'div',
+        {
+            className: joinClasses(className, 'visual-frame', showImage ? 'has-image' : 'is-placeholder')
+        },
+        showImage
+            ? e('img', {
+                src,
+                alt,
+                className: 'visual-image',
+                loading: eager ? 'eager' : 'lazy',
+                decoding: 'async',
+                onError: () => setFailed(true),
+                style: { objectPosition }
+            })
+            : e(
+                'div',
+                {
+                    className: joinClasses('visual-placeholder', `visual-placeholder--${theme}`),
+                    'data-label': label || ''
+                },
+                title ? e('strong', null, title) : null,
+                description ? e('p', null, description) : null
+            )
+    );
 }
 
 function Navbar() {
@@ -216,9 +282,16 @@ function App() {
                 e(
                     'div',
                     { className: 'hero-visual' },
-                    e('div', {
+                    e(VisualMedia, {
                         className: 'hero-image',
-                        style: { backgroundImage: "url('images/hero.jpg')" }
+                        src: HERO_IMAGE,
+                        alt: 'New machine installation at Shri Renuka Engineering Works',
+                        label: 'Precision Manufacturing',
+                        title: 'New machine installation and workshop presence',
+                        description: 'Industrial-grade hero visual with a professional workshop setting.',
+                        objectPosition: 'center 42%',
+                        theme: 'hero',
+                        eager: true
                     }),
                     e('div', { className: 'hero-overlay' })
                 ),
@@ -257,10 +330,15 @@ function App() {
                         e(
                             'div',
                             { className: 'about-image-wrapper reveal' },
-                            e('img', {
-                                src: 'images/hero.jpg',
-                                alt: 'Shri Renuka Engineering Works factory and machinery',
-                                className: 'about-image'
+                            e(VisualMedia, {
+                                className: 'about-image',
+                                src: ABOUT_IMAGE,
+                                alt: 'Shri Renuka Engineering Works workshop facility',
+                                label: 'Industrial Workshop',
+                                title: 'Workshop facility and engineering depth',
+                                description: 'Real facility view with balanced industrial composition.',
+                                objectPosition: 'center 34%',
+                                theme: 'about'
                             })
                         ),
                         e(
@@ -337,17 +415,23 @@ function App() {
                         'div',
                         { className: 'machinery-grid' },
                         [
-                            { image: '', title: 'CNC Turning Machine' },
-                            { image: '', title: 'Industrial Milling Machine' },
-                            { image: '', title: 'Precision Fabrication Unit' },
-                            { image: '', title: 'Mechanical Workshop Setup' }
+                            { image: MACHINERY_IMAGES[0], title: 'CNC Turning Machine', label: 'Machinery Infrastructure', description: 'Precision turning and industrial fabrication support.', position: 'center 44%' },
+                            { image: MACHINERY_IMAGES[1], title: 'Industrial Milling Machine', label: 'Machinery Infrastructure', description: 'Workshop-grade machining and production capability.', position: 'center 34%' },
+                            { image: MACHINERY_IMAGES[2], title: 'Precision Fabrication Unit', label: 'Machinery Infrastructure', description: 'Structural fabrication and assembly capability.', position: 'center 50%' },
+                            { image: MACHINERY_IMAGES[3], title: 'Mechanical Workshop Setup', label: 'Machinery Infrastructure', description: 'Industrial workshop layout and support systems.', position: 'center 40%' }
                         ].map((machine) =>
                             e(
                                 'div',
                                 { className: 'machine-card reveal', key: machine.title },
-                                e('div', {
+                                e(VisualMedia, {
                                     className: 'machine-image',
-                                    style: { backgroundImage: machine.image ? `url('${machine.image}')` : 'none' }
+                                    src: machine.image,
+                                    alt: machine.title,
+                                    label: machine.label,
+                                    title: machine.title,
+                                    description: machine.description,
+                                    objectPosition: machine.position,
+                                    theme: 'machinery'
                                 }),
                                 e('div', { className: 'machine-content' }, e('h3', { className: 'machine-title' }, machine.title))
                             )
@@ -373,16 +457,22 @@ function App() {
                         'div',
                         { className: 'projects-grid' },
                         [
-                            { image: '', title: 'Industrial Machinery Setup', category: 'Manufacturing' },
-                            { image: '', title: 'Precision Fabrication Work', category: 'Fabrication' },
-                            { image: '', title: 'Engineering Training Workshop', category: 'Training' }
+                            { image: PROJECT_IMAGES[0], title: 'Industrial Machinery Setup', category: 'Manufacturing', label: 'Industrial Projects', description: 'Workshop-backed machinery setup and execution.', position: 'center 42%' },
+                            { image: PROJECT_IMAGES[1], title: 'Precision Fabrication Work', category: 'Fabrication', label: 'Industrial Projects', description: 'Fabrication and engineering delivery in action.', position: 'center 32%' },
+                            { image: PROJECT_IMAGES[2], title: 'Engineering Training Workshop', category: 'Training', label: 'Industrial Projects', description: 'Practical production environment for learning.', position: 'center 48%' }
                         ].map((project) =>
                             e(
                                 'div',
                                 { className: 'project-card reveal', key: project.title },
-                                e('div', {
+                                e(VisualMedia, {
                                     className: 'project-image',
-                                    style: { backgroundImage: project.image ? `url('${project.image}')` : 'none' }
+                                    src: project.image,
+                                    alt: project.title,
+                                    label: project.label,
+                                    title: project.title,
+                                    description: project.description,
+                                    objectPosition: project.position,
+                                    theme: 'projects'
                                 }),
                                 e(
                                     'div',
@@ -413,15 +503,30 @@ function App() {
                         'div',
                         { className: 'training-grid' },
                         [
-                            { title: 'Industrial Training', text: 'Hands-on learning with industrial machinery and real engineering processes.' },
-                            { title: 'Student Internship', text: 'Industry exposure for engineering students through guided practical work.' },
-                            { title: 'Career Development', text: 'Improve technical and professional skills through real project participation.' }
+                            { image: TRAINING_IMAGES[0], title: 'Industrial Training', text: 'Hands-on learning with industrial machinery and real engineering processes.', label: 'Engineering Training', description: 'Practical workshop exposure and skill development.', position: 'center 35%' },
+                            { image: TRAINING_IMAGES[1], title: 'Student Internship', text: 'Industry exposure for engineering students through guided practical work.', label: 'Engineering Training', description: 'Guided practical learning for students and freshers.', position: 'center 38%' },
+                            { image: TRAINING_IMAGES[2], title: 'Career Development', text: 'Improve technical and professional skills through real project participation.', label: 'Engineering Training', description: 'Career-ready learning and hands-on experience.', position: 'center 40%' },
+                            { image: TRAINING_IMAGES[3], title: 'Certification & Completion', text: 'Recognition for completed training and practical exposure programs.', label: 'Engineering Training', description: 'Training milestones and completion achievements.', position: 'center 30%' }
                         ].map((item) =>
                             e(
                                 'div',
                                 { className: 'training-card reveal', key: item.title },
-                                e('h3', { className: 'training-title' }, item.title),
-                                e('p', { className: 'training-text' }, item.text)
+                                e(VisualMedia, {
+                                    className: 'training-image',
+                                    src: item.image,
+                                    alt: item.title,
+                                    label: item.label,
+                                    title: item.title,
+                                    description: item.description,
+                                    objectPosition: item.position,
+                                    theme: 'training'
+                                }),
+                                e(
+                                    'div',
+                                    { className: 'training-content' },
+                                    e('h3', { className: 'training-title' }, item.title),
+                                    e('p', { className: 'training-text' }, item.text)
+                                )
                             )
                         )
                     )

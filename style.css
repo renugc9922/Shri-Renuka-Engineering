@@ -267,9 +267,102 @@ img {
 .hero-image {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.visual-frame {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #eef2f5, #dfe6eb);
+}
+
+.visual-frame.has-image {
+    background: none;
+}
+
+.visual-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.visual-placeholder {
+    position: relative;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    color: #fff;
+    background: linear-gradient(135deg, #14212a, #253543 55%, #566470);
+    isolation: isolate;
+}
+
+.visual-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.14), transparent 26%),
+        radial-gradient(circle at 84% 20%, rgba(255,255,255,0.08), transparent 22%),
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 35%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 18px);
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.visual-placeholder::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.74);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.visual-placeholder strong,
+.visual-placeholder p {
+    position: relative;
+    z-index: 1;
+}
+
+.visual-placeholder strong {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(1.05rem, 0.95rem + 0.35vw, 1.35rem);
+    line-height: 1.12;
+}
+
+.visual-placeholder p {
+    margin: 0.45rem 0 0;
+    color: rgba(236, 242, 247, 0.82);
+    line-height: 1.6;
+    font-size: 0.92rem;
+}
+
+.visual-placeholder--hero {
+    background: linear-gradient(135deg, #1a2a35, #344451 55%, #647381);
+}
+
+.visual-placeholder--about {
+    background: linear-gradient(135deg, #122028, #223542 58%, #53616d);
+}
+
+.visual-placeholder--machinery {
+    background: linear-gradient(135deg, #101e26, #243441 55%, #4f5e69);
+}
+
+.visual-placeholder--projects {
+    background: linear-gradient(135deg, #16232d, #2a3c49 55%, #5b6873);
+}
+
+.visual-placeholder--training {
+    background: linear-gradient(135deg, #15202b, #253543 55%, #57646f);
 }
 
 .hero-overlay {
@@ -458,6 +551,7 @@ img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 .about-description {
@@ -584,6 +678,9 @@ img {
 }
 
 .machine-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
     border-radius: 1rem;
     background: var(--bg);
@@ -600,45 +697,15 @@ img {
 .machine-image,
 .project-image {
     height: 280px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #eef2f5, #dfe6eb);
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
+    border-radius: 1rem 1rem 0 0;
 }
 
-.machine-image::before {
-    content: 'IMAGE COMING SOON';
-}
-
-.project-image::before {
-    content: 'COMING SOON';
-}
-
-.machine-image::before,
-.project-image::before {
-    color: #72808b;
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.95rem;
-    letter-spacing: 0.18em;
-    font-weight: 600;
-    z-index: 1;
-}
-
-.machine-image::after,
-.project-image::after {
-    content: '';
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    filter: blur(40px);
-    top: -80px;
-    right: -50px;
+.machine-image .visual-placeholder,
+.project-image .visual-placeholder,
+.training-image .visual-placeholder,
+.hero-image .visual-placeholder,
+.about-image-wrapper .visual-placeholder {
+    min-height: 100%;
 }
 
 .machine-content {
@@ -663,6 +730,9 @@ img {
 }
 
 .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow: hidden;
     border-radius: 1rem;
     background: var(--surface);
@@ -678,6 +748,7 @@ img {
 
 .project-content {
     padding: 1.4rem;
+    flex: 1;
 }
 
 .project-category {
@@ -702,21 +773,41 @@ img {
 
 .training-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.5rem;
 }
 
 .training-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     background: white;
-    padding: 2rem;
+    padding: 0;
     border-radius: 1rem;
     border: 1px solid var(--line);
     transition: 0.3s;
+    overflow: hidden;
 }
 
 .training-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 18px 40px rgba(15, 23, 32, 0.08);
+}
+
+.training-image {
+    height: 220px;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.training-content {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.training-title {
+    margin-bottom: 0;
 }
 
 /* CONTACT */
