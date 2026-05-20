@@ -10,8 +10,8 @@ const navItems = [
     { label: 'Machinery', href: '#machinery' },
     { label: 'Projects', href: '#projects' },
     { label: 'Training & Careers', href: '#training' },
-    { label: 'Contact', href: '#contact' },
-    { label: 'Inquiry', href: '#inquiry' }
+    { label: 'Inquiry', href: '#inquiry' },
+    { label: 'Contact', href: '#contact' }
 ];
 
 function joinClasses(...parts) {
@@ -391,30 +391,6 @@ function App() {
                     )
                 )
             ),
-
-            e(
-                'section',
-                { className: 'contact-section', id: 'contact' },
-                e(
-                    'div',
-                    { className: 'industrial-container' },
-                    e(
-                        'div',
-                        { className: 'section-heading reveal' },
-                        e('p', { className: 'section-label' }, 'Get In Touch'),
-                        e('h2', { className: 'section-title' }, 'Let’s Build Something Together'),
-                        e('p', { className: 'section-description' }, 'Connect with Shri Renuka Engineering Works for manufacturing, projects, industrial solutions, and training opportunities.')
-                    ),
-                    e(
-                        'div',
-                        { className: 'contact-grid' },
-                        e('div', { className: 'contact-card' }, e('h3', null, '📍 Location'), e('p', null, 'Plot No. E 92-5/7, Robotex Park, Akkalkot Road MIDC, Solapur')),
-                        e('div', { className: 'contact-card' }, e('h3', null, '📞 Contact'), e('p', null, '+91 9822249304 / +91 9763137419')),
-                        e('div', { className: 'contact-card' }, e('h3', null, '✉ Email'), e('p', null, 'rew22795@gmail.com'))
-                    )
-                )
-            ),
-
             e(
                 'section',
                 { className: 'inquiry-section', id: 'inquiry' },
@@ -450,6 +426,30 @@ function App() {
                 )
             ),
 
+            e(
+                'section',
+                { className: 'contact-section', id: 'contact' },
+                e(
+                    'div',
+                    { className: 'industrial-container' },
+                    e(
+                        'div',
+                        { className: 'section-heading reveal' },
+                        e('p', { className: 'section-label' }, 'Get In Touch'),
+                        e('h2', { className: 'section-title' }, 'Let’s Build Something Together'),
+                        e('p', { className: 'section-description' }, 'Connect with Shri Renuka Engineering Works for manufacturing, projects, industrial solutions, and training opportunities.')
+                    ),
+                    e(
+                        'div',
+                        { className: 'contact-grid' },
+                        e('div', { className: 'contact-card' }, e('h3', null, '📍 Location'), e('p', null, 'Plot No. E 92-5/7, Robotex Park, Akkalkot Road MIDC, Solapur')),
+                        e('div', { className: 'contact-card' }, e('h3', null, '📞 Contact'), e('p', null, '+91 9822249304 / +91 9763137419')),
+                        e('div', { className: 'contact-card' }, e('h3', null, '✉ Email'), e('p', null, 'rew22795@gmail.com'))
+                    )
+                )
+            ),
+
+            
             e(
                 'a',
                 {
