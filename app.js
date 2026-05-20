@@ -22,6 +22,23 @@ function joinClasses(...parts) {
     return parts.filter(Boolean).join(' ');
 }
 
+function isInquiryOpen() {
+    const indiaTime = new Date(
+        new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Kolkata'
+        })
+    );
+
+    const day = indiaTime.getDay();
+    const hour = indiaTime.getHours();
+
+    if (day === 0) {
+        return false;
+    }
+
+    return hour >= 9 && hour < 18;
+}
+
 function Navbar() {
     const [menuOpen, setMenuOpen] = React.useState(false);
     const [scrolled, setScrolled] = React.useState(false);
@@ -148,7 +165,12 @@ function App() {
 
         const form = event.currentTarget;
 
-        window.emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
+        if (!isInquiryOpen()) {
+            alert('⏰ Inquiry submissions are closed for today.\nPlease submit your inquiry Monday–Saturday between 9:00 AM and 6:00 PM (IST).');
+            return;
+        }
+
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
             .then(() => {
                 alert('✅ Inquiry sent successfully!');
                 form.reset();
@@ -435,7 +457,8 @@ function App() {
                             e('option', { value: 'supplier' }, 'Supplier / Business Inquiry')
                         ),
                         e('textarea', { name: 'message', placeholder: 'Write your message or requirement...', rows: 5 }),
-                        e('button', { type: 'submit', className: 'cta-button' }, 'Submit Inquiry')
+                        e('button', { type: 'submit', className: 'cta-button' }, 'Submit Inquiry'),
+                        e('p', { className: 'section-description' }, 'Business Inquiry Hours: Mon–Sat | 9:00 AM – 6:00 PM (IST)')
                     )
                 )
             ),
