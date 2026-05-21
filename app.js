@@ -236,7 +236,25 @@ function App() {
             return;
         }
 
-        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form, PUBLIC_KEY)
+        const formData = new FormData(form);
+        const inquiryTypeSelect = form.querySelector('select[name="inquiry_type"]');
+        const inquiryTypeText = inquiryTypeSelect?.selectedOptions?.[0]?.textContent?.trim() || '';
+        const inquiryTypeValue = String(formData.get('inquiry_type') || '').trim();
+
+        const templateParams = {
+            user_name: String(formData.get('user_name') || '').trim(),
+            user_email: String(formData.get('user_email') || '').trim(),
+            user_phone: String(formData.get('user_phone') || '').trim(),
+            inquiry_type: inquiryTypeText || inquiryTypeValue,
+            message: String(formData.get('message') || '').trim(),
+            name: String(formData.get('user_name') || '').trim(),
+            email: String(formData.get('user_email') || '').trim(),
+            phone: String(formData.get('user_phone') || '').trim(),
+            inquiry: inquiryTypeText || inquiryTypeValue,
+            inquiry_type_value: inquiryTypeValue
+        };
+
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
             .then(() => {
                 alert('✅ Inquiry sent successfully!');
                 form.reset();
