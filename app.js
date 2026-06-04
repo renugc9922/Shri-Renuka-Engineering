@@ -3,6 +3,10 @@ import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';
 
 const e = React.createElement;
 
+const SERVICE_ID = 'Renuka_Engg';
+const TEMPLATE_ID = 'template_d32oggg';
+const PUBLIC_KEY = 'oaRt99YrbLTmv3q_5';
+
 const HERO_IMAGE = 'images/startingcompanyimg.JPG.JPG';
 const ABOUT_IMAGE = 'images/IMG_20211103_172017.jpg';
 
