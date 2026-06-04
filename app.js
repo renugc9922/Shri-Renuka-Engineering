@@ -3,30 +3,28 @@ import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';
 
 const e = React.createElement;
 
-const SERVICE_ID = 'Renuka_Engg';
-const TEMPLATE_ID = 'template_d32oggg';
-const PUBLIC_KEY = 'oaRt99YrbLTmv3q_5';
-
-const HERO_IMAGE = 'images/newmachinepuja.jpeg';
+const HERO_IMAGE = 'images/startingcompanyimg.JPG.JPG';
 const ABOUT_IMAGE = 'images/IMG_20211103_172017.jpg';
+
 const MACHINERY_IMAGES = [
     'images/startingcompanyimg.JPG.JPG',
     'images/IMG_20211103_172017.jpg',
     'images/newmachinepuja.jpeg',
-    ''
+    'images/machinery-workshop.jpg.png'
 ];
+
 const PROJECT_IMAGES = [
     'images/startingcompanyimg.JPG.JPG',
     'images/IMG_20211103_172017.jpg',
     'images/newmachinepuja.jpeg'
 ];
+
 const TRAINING_IMAGES = [
-    '',
     'images/traning2.JPG.JPG',
     'images/traning.JPG.JPG',
+    'images/career-development.jpg.png',
     'images/coursecompletion.jpg.jpg'
 ];
-
 const navItems = [
     { label: 'Home', href: '#top' },
     { label: 'About', href: '#about' },
@@ -203,7 +201,10 @@ function Navbar() {
                     {
                         className: 'menu-button',
                         type: 'button',
-                        onClick: () => setMenuOpen((value) => !value)
+                        onClick: () => setMenuOpen((value) => !value),
+                        'aria-expanded': menuOpen,
+                        'aria-controls': 'mobile-menu',
+                        'aria-label': menuOpen ? 'Close navigation menu' : 'Open navigation menu'
                     },
                     menuOpen ? 'Close' : 'Menu'
                 )
@@ -218,7 +219,8 @@ function Navbar() {
                     'mobile-drawer',
                     menuOpen && 'is-open'
                 ),
-                id: 'mobile-menu'
+                id: 'mobile-menu',
+                'aria-hidden': !menuOpen
             },
             navItems.map(renderNavLink)
         )
@@ -303,10 +305,10 @@ function App() {
                     e(VisualMedia, {
                         className: 'hero-image',
                         src: HERO_IMAGE,
-                        alt: 'New machine installation at Shri Renuka Engineering Works',
+                        alt: 'Industrial machinery and workshop setting at Shri Renuka Engineering Works',
                         label: 'Precision Manufacturing',
-                        title: 'New machine installation and workshop presence',
-                        description: 'Industrial-grade hero visual with a professional workshop setting.',
+                        title: 'Factory floor and precision machining environment',
+                        description: 'Industrial workshop visual with a strong manufacturing presence.',
                         objectPosition: 'center 42%',
                         theme: 'hero',
                         eager: true
@@ -319,18 +321,19 @@ function App() {
                     e(
                         'div',
                         { className: 'industrial-container' },
-                        e('p', { className: 'hero-kicker' }, 'Precision • Innovation • Industrial Excellence Since 1995'),
+                        e('p', { className: 'hero-kicker' }, 'Industrial Excellence'),
                         e('h1', { className: 'hero-title' }, 'Shri Renuka Engineering Works'),
+                        e('p', { className: 'hero-tagline' }, 'Precision Engineering Since 1995'),
                         e(
                             'p',
                             { className: 'hero-description' },
-                            'Delivering precision manufacturing, industrial innovation, CNC machining, and practical engineering training with over 30 years of trusted industrial experience.'
+                            'We deliver machining, fabrication, industrial services, and technical training with a disciplined approach to quality, reliability, and long-term client support.'
                         ),
                         e(
                             'div',
                             { className: 'hero-actions' },
-                            e('a', { href: '#services', className: 'cta-button' }, 'Explore Capabilities'),
-                            e('a', { href: '#training', className: 'secondary-button' }, 'Training & Career Opportunities')
+                            e('a', { href: '#services', className: 'cta-button' }, 'Explore Services'),
+                            e('a', { href: '#training', className: 'secondary-button' }, 'Training & Careers')
                         )
                     )
                 )
@@ -372,9 +375,10 @@ function App() {
                             e(
                                 'div',
                                 { className: 'about-stats' },
-                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, '30+'), e('div', { className: 'stat-label' }, 'Years of Experience')),
-                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, '100+'), e('div', { className: 'stat-label' }, 'Industrial Projects')),
-                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, 'Real-World'), e('div', { className: 'stat-label' }, 'Training & Engineering'))
+                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, '30+'), e('div', { className: 'stat-label' }, 'Years Experience')),
+                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, 'Precision'), e('div', { className: 'stat-label' }, 'Manufacturing')),
+                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, 'Skilled'), e('div', { className: 'stat-label' }, 'Workforce')),
+                                e('div', { className: 'stat-card' }, e('div', { className: 'stat-number' }, 'Training'), e('div', { className: 'stat-label' }, 'Support'))
                             )
                         )
                     )
@@ -398,16 +402,21 @@ function App() {
                         'div',
                         { className: 'services-grid' },
                         [
-                            { title: 'CNC Machining', text: 'High-precision CNC machining solutions for industrial components and manufacturing.' },
-                            { title: 'Industrial Fabrication', text: 'Reliable fabrication services with strong structural and mechanical accuracy.' },
-                            { title: 'Engineering Training', text: 'Practical industrial and engineering training for students and professionals.' },
-                            { title: 'Machine Maintenance', text: 'Industrial machinery maintenance and operational support services.' },
-                            { title: 'Custom Manufacturing', text: 'Tailored manufacturing solutions designed according to client requirements.' },
-                            { title: 'Project Consultation', text: 'Technical consultation and industrial project execution assistance.' }
+                            { title: 'CNC Machining', text: 'High-precision CNC machining solutions for industrial components and manufacturing.', icon: '⚙' },
+                            { title: 'Industrial Fabrication', text: 'Reliable fabrication services with strong structural and mechanical accuracy.', icon: '▣' },
+                            { title: 'Engineering Training', text: 'Practical industrial and engineering training for students and professionals.', icon: '▤' },
+                            { title: 'Machine Maintenance', text: 'Industrial machinery maintenance and operational support services.', icon: '◫' },
+                            { title: 'Custom Manufacturing', text: 'Tailored manufacturing solutions designed according to client requirements.', icon: '⬚' },
+                            { title: 'Project Consultation', text: 'Technical consultation and industrial project execution assistance.', icon: '◈' }
                         ].map((service) =>
                             e(
                                 'div',
                                 { className: 'service-card reveal', key: service.title },
+                                e(
+                                    'div',
+                                    { className: 'service-icon', 'aria-hidden': 'true' },
+                                    e('span', null, service.icon)
+                                ),
                                 e('h3', { className: 'service-title' }, service.title),
                                 e('p', { className: 'service-text' }, service.text)
                             )
@@ -519,6 +528,13 @@ function App() {
                     ),
                     e(
                         'div',
+                        { className: 'training-summary reveal' },
+                        e('div', { className: 'training-summary-card' }, e('h3', null, 'Hands-on learning'), e('p', null, 'Work directly with industrial equipment and real engineering processes.')),
+                        e('div', { className: 'training-summary-card' }, e('h3', null, 'Industry exposure'), e('p', null, 'Learn from practical projects, guided internships, and shop-floor discipline.')),
+                        e('div', { className: 'training-summary-card' }, e('h3', null, 'Career support'), e('p', null, 'Build technical confidence and prepare for engineering roles with real-world context.'))
+                    ),
+                    e(
+                        'div',
                         { className: 'training-grid' },
                         [
                             { image: TRAINING_IMAGES[0], title: 'Industrial Training', text: 'Hands-on learning with industrial machinery and real engineering processes.', label: 'Engineering Training', description: 'Practical workshop exposure and skill development.', position: 'center 35%' },
@@ -558,28 +574,43 @@ function App() {
                     { className: 'industrial-container inquiry-box' },
                     e(
                         'div',
-                        { className: 'section-heading reveal' },
-                        e('p', { className: 'section-label' }, 'Inquiry Form'),
-                        e('h2', { className: 'section-title' }, 'Reach Out For Work, Training Or Career Opportunities'),
-                        e('p', { className: 'section-description' }, 'Select the purpose of your inquiry and share your details. Our team will connect with you for the next steps.')
+                        { className: 'inquiry-side reveal' },
+                        e(
+                            'div',
+                            { className: 'section-heading' },
+                            e('p', { className: 'section-label' }, 'Inquiry Form'),
+                            e('h2', { className: 'section-title' }, 'Reach Out For Work, Training Or Career Opportunities'),
+                            e('p', { className: 'section-description' }, 'Select the purpose of your inquiry and share your details. Our team will connect with you for the next steps.')
+                        ),
+                        e(
+                            'div',
+                            { className: 'inquiry-notes' },
+                            e('div', { className: 'inquiry-note' }, e('strong', null, 'Quick response'), e('p', null, 'We review quotations, training, and business enquiries during working hours.')),
+                            e('div', { className: 'inquiry-note' }, e('strong', null, 'Practical guidance'), e('p', null, 'Share your requirement and we will guide you to the right next step.')),
+                            e('div', { className: 'inquiry-note' }, e('strong', null, 'Reliable follow-up'), e('p', null, 'We keep communication clear and professional from first contact onward.'))
+                        )
                     ),
                     e(
                         'form',
                         { className: 'inquiry-form reveal', onSubmit: handleSubmit },
-                        e('input', { type: 'text', name: 'user_name', placeholder: 'Full Name', required: true }),
-                        e('input', { type: 'tel', name: 'user_phone', placeholder: 'Phone Number', required: true }),
-                        e('input', { type: 'email', name: 'user_email', placeholder: 'Email Address' }),
                         e(
-                            'select',
-                            { name: 'inquiry_type', required: true },
-                            e('option', { value: '' }, 'Select Inquiry Type'),
-                            e('option', { value: 'quotation' }, 'Quotation Request'),
-                            e('option', { value: 'internship' }, 'Internship Application'),
-                            e('option', { value: 'training' }, 'Training Registration'),
-                            e('option', { value: 'career' }, 'Career / Job Application'),
-                            e('option', { value: 'supplier' }, 'Supplier / Business Inquiry')
+                            'div',
+                            { className: 'inquiry-grid' },
+                            e('input', { type: 'text', name: 'user_name', placeholder: 'Full Name', required: true, className: 'inquiry-field' }),
+                            e('input', { type: 'tel', name: 'user_phone', placeholder: 'Phone Number', required: true, className: 'inquiry-field' }),
+                            e('input', { type: 'email', name: 'user_email', placeholder: 'Email Address', className: 'inquiry-field' }),
+                            e(
+                                'select',
+                                { name: 'inquiry_type', required: true, className: 'inquiry-field' },
+                                e('option', { value: '' }, 'Select Inquiry Type'),
+                                e('option', { value: 'quotation' }, 'Quotation Request'),
+                                e('option', { value: 'internship' }, 'Internship Application'),
+                                e('option', { value: 'training' }, 'Training Registration'),
+                                e('option', { value: 'career' }, 'Career / Job Application'),
+                                e('option', { value: 'supplier' }, 'Supplier / Business Inquiry')
+                            ),
+                            e('textarea', { name: 'message', placeholder: 'Write your message or requirement...', rows: 5, className: 'inquiry-field inquiry-message' })
                         ),
-                        e('textarea', { name: 'message', placeholder: 'Write your message or requirement...', rows: 5 }),
                         e('button', { type: 'submit', className: 'cta-button' }, 'Submit Inquiry'),
                         e('p', { className: 'section-description' }, 'Business Inquiry Hours: Mon–Sat | 9:00 AM – 6:00 PM (IST)')
                     )
@@ -646,7 +677,39 @@ behavior:'smooth'
                 e(
                     'div',
                     { className: 'industrial-container' },
-                    e('p', null, '© 2026 Shri Renuka Engineering Works • Built with Precision')
+                    e(
+                        'div',
+                        { className: 'footer-grid' },
+                        e(
+                            'div',
+                            { className: 'footer-brand' },
+                            e('p', { className: 'footer-label' }, 'Shri Renuka Engineering Works'),
+                            e('p', { className: 'footer-text' }, 'Precision manufacturing, fabrication, industrial services, and technical training for practical business needs.')
+                        ),
+                        e(
+                            'div',
+                            { className: 'footer-links' },
+                            e('h3', null, 'Quick Links'),
+                            e(
+                                'div',
+                                { className: 'footer-link-list' },
+                                navItems.map((item) => e('a', { key: item.label, href: item.href }, item.label))
+                            )
+                        ),
+                        e(
+                            'div',
+                            { className: 'footer-contact' },
+                            e('h3', null, 'Contact'),
+                            e('p', null, 'Plot No. E 92-5/7, Robotex Park, Akkalkot Road MIDC, Solapur'),
+                            e('p', null, '+91 9822249304 / +91 9763137419'),
+                            e('p', null, 'rew22795@gmail.com')
+                        )
+                    ),
+                    e(
+                        'div',
+                        { className: 'footer-bottom' },
+                        e('p', null, '© 2026 Shri Renuka Engineering Works. All rights reserved.')
+                    )
                 )
             )
         )
