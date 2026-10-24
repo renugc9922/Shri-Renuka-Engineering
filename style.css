@@ -112,7 +112,7 @@ h6,
     left: 0;
     width: 100%;
     z-index: 100;
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--surface);
     border-bottom: 1px solid var(--line);
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
@@ -120,6 +120,24 @@ h6,
 .site-header.is-scrolled {
     background: var(--surface);
     border-bottom-color: var(--line-strong);
+}
+
+@supports ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
+    .site-header {
+        background: rgba(255, 255, 255, 0.18);
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+        border-bottom-color: transparent;
+    }
+
+    .site-header.is-scrolled {
+        background: rgba(255, 255, 255, 0.18);
+        border-bottom-color: transparent;
+    }
+
+    .mobile-drawer {
+        background: rgba(255, 255, 255, 0.18);
+    }
 }
 
 .nav-row {
@@ -174,9 +192,9 @@ h6,
 
 .nav-link {
     position: relative;
-    color: var(--text-soft);
-    font-size: 0.88rem;
-    font-weight: 500;
+    color: #17212B;
+    font-size: 1rem;
+    font-weight: 600;
     letter-spacing: 0;
     padding: 0.5rem 0;
     transition: color 0.2s ease;
@@ -808,6 +826,12 @@ section[id] {
     transform-origin: center center;
 }
 
+.about-image-wrapper .visual-image,
+.machine-card .visual-image,
+.project-card .visual-image {
+    visibility: hidden;
+}
+
 .machine-card:hover .visual-image,
 .project-card:hover .visual-image,
 .training-card:hover .visual-image {
@@ -997,6 +1021,15 @@ section[id] {
 
 .contact-card p {
     color: var(--text-soft);
+}
+
+.telephone-numbers a {
+    color: inherit;
+}
+
+.telephone-hours {
+    margin-top: -0.5rem;
+    font-size: 0.9rem;
 }
 
 /* INQUIRY FORM */

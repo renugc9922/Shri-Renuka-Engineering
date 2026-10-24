@@ -29,6 +29,12 @@ const TRAINING_IMAGES = [
     'images/career-development.jpg.png',
     'images/coursecompletion.jpg.jpg'
 ];
+
+const PHONE_NUMBERS = [
+    { display: '+91 9822249304', href: 'tel:+919822249304' },
+    { display: '+91 9763137419', href: 'tel:+919763137419' }
+];
+
 const navItems = [
     { label: 'Home', href: '#top' },
     { label: 'About', href: '#about' },
@@ -44,21 +50,40 @@ function joinClasses(...parts) {
     return parts.filter(Boolean).join(' ');
 }
 
-function isInquiryOpen() {
-    const indiaTime = new Date(
-        new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Kolkata'
-        })
+function isTelephoneHoursOpen() {
+    const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata',
+        weekday: 'short',
+        hour: 'numeric',
+        hour12: false
+    }).formatToParts(new Date());
+
+    const weekday = parts.find((part) => part.type === 'weekday')?.value;
+    const hour = Number(parts.find((part) => part.type === 'hour')?.value);
+
+    return weekday !== 'Sun' && hour >= 9 && hour < 18;
+}
+
+function maskedPhoneNumber(display) {
+    const [countryCode, number] = display.split(' ');
+    return `${countryCode} ${number.slice(0, 5)}•••••`;
+}
+
+function TelephoneNumbers({ isOpen, className = '' }) {
+    return e(
+        'span',
+        { className: joinClasses('telephone-numbers', className) },
+        PHONE_NUMBERS.map((phone, index) =>
+            e(
+                React.Fragment,
+                { key: phone.href },
+                index > 0 ? ' / ' : null,
+                isOpen
+                    ? e('a', { href: phone.href }, phone.display)
+                    : e('span', null, maskedPhoneNumber(phone.display))
+            )
+        )
     );
-
-    const day = indiaTime.getDay();
-    const hour = indiaTime.getHours();
-
-    if (day === 0) {
-        return false;
-    }
-
-    return hour >= 9 && hour < 18;
 }
 
 function VisualMedia({
@@ -232,15 +257,20 @@ function Navbar() {
 }
 
 function App() {
+    const [telephoneHoursOpen, setTelephoneHoursOpen] = React.useState(isTelephoneHoursOpen);
+
+    React.useEffect(() => {
+        const updateTelephoneHours = () => setTelephoneHoursOpen(isTelephoneHoursOpen());
+        const intervalId = window.setInterval(updateTelephoneHours, 30000);
+
+        updateTelephoneHours();
+        return () => window.clearInterval(intervalId);
+    }, []);
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const form = event.currentTarget;
-
-        if (!isInquiryOpen()) {
-            alert('⏰ Inquiry submissions are closed for today.\nPlease submit your inquiry Monday–Saturday between 9:00 AM and 6:00 PM (IST).');
-            return;
-        }
 
         const formData = new FormData(form);
         const inquiryTypeSelect = form.querySelector('select[name="inquiry_type"]');
@@ -616,7 +646,7 @@ function App() {
                             e('textarea', { name: 'message', placeholder: 'Write your message or requirement...', rows: 5, className: 'inquiry-field inquiry-message' })
                         ),
                         e('button', { type: 'submit', className: 'cta-button' }, 'Submit Inquiry'),
-                        e('p', { className: 'section-description' }, 'Business Inquiry Hours: Mon–Sat | 9:00 AM – 6:00 PM (IST)')
+                        e('p', { className: 'section-description' }, 'Business Inquiries: Available 24/7')
                     )
                 )
             ),
@@ -638,7 +668,13 @@ function App() {
                         'div',
                         { className: 'contact-grid' },
                         e('div', { className: 'contact-card' }, e('h3', null, '📍 Location'), e('p', null, 'Plot No. E 92-5/7, Robotex Park, Akkalkot Road MIDC, Solapur')),
-                        e('div', { className: 'contact-card' }, e('h3', null, '📞 Contact'), e('p', null, '+91 9822249304 / +91 9763137419')),
+                        e(
+                            'div',
+                            { className: 'contact-card' },
+                            e('h3', null, '📞 Contact'),
+                            e('p', null, e(TelephoneNumbers, { isOpen: telephoneHoursOpen })),
+                            e('p', { className: 'telephone-hours' }, 'Mon–Sat | 9:00 AM – 6:00 PM (IST)')
+                        ),
                         e('div', { className: 'contact-card' }, e('h3', null, '✉ Email'), e('p', null, 'rew22795@gmail.com'))
                     )
                 )
@@ -705,7 +741,7 @@ behavior:'smooth'
                             { className: 'footer-contact' },
                             e('h3', null, 'Contact'),
                             e('p', null, 'Plot No. E 92-5/7, Robotex Park, Akkalkot Road MIDC, Solapur'),
-                            e('p', null, '+91 9822249304 / +91 9763137419'),
+                            e('p', null, e(TelephoneNumbers, { isOpen: telephoneHoursOpen })),
                             e('p', null, 'rew22795@gmail.com')
                         )
                     ),
